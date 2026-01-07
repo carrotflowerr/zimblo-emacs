@@ -1,0 +1,23 @@
+(defvar tmp-note-dir "~/.note/"
+  "Directory to save temporary notes.")
+
+
+
+(defun tmp()
+  "Create and open tmp file."
+  (interactive)
+  (let
+      ((tmpFilename
+        (string-trim
+         (shell-command-to-string "mktemp"))))
+    (find-file tmpFilename))
+  (lisp-mode)
+  )
+
+
+(defun tmp-save ()
+  (interactive)
+  (let* ((dir "~/.note/") ;; Defined locally here
+         (target-path (expand-file-name (file-name-nondirectory (buffer-name)) dir)))
+    (make-directory dir t)
+    (write-file target-path)))
